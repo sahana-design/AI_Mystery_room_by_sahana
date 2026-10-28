@@ -35,7 +35,7 @@ npm --prefix client run dev
 
 Open `http://localhost:5173`. The API health check is at `http://localhost:5000/api/v1/health`. The backend loads `server/.env` and validates required configuration at startup; the Vite client loads `client/.env`. The frontend environment is for public settings only and must never contain Gemini credentials, database credentials, session secrets, or other private values.
 
-For production, configure secrets through the deployment platform's environment-variable settings. Set `NODE_ENV=production`, use HTTPS, configure `CLIENT_ORIGIN`, and provide a managed MongoDB connection. Do not deploy or commit local `.env` files.
+For a step-by-step Docker deployment walkthrough, see [DEPLOYMENT.md](DEPLOYMENT.md). The included root `Dockerfile` builds the Vite client and serves it from Express alongside the API. Configure secrets through the deployment platform's environment-variable settings; do not deploy or commit local `.env` files.
 
 ## API
 

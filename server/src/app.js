@@ -15,6 +15,7 @@ const clientDist = resolve(fileURLToPath(new URL('../../client/dist', import.met
 
 export function createApp({ service, config }) {
   const app = express();
+  app.set("trust proxy", 1);
   app.disable('x-powered-by');
   app.use(helmet());
   app.use(cors({ origin: config.clientOrigin, credentials: true }));

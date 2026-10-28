@@ -1,0 +1,3 @@
+import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+function sign(value,secret){return createHmac('sha256',secret).update(value).digest('hex')}
+export function sessionMiddleware(secret,production){return(req,res,next)=>{const raw=req.cookies?.case_session;let token;if(raw){const parts=raw.split('.');if(parts.length===2){const expected=sign(parts[0],secret);const actual=Buffer.from(parts[1]);const wanted=Buffer.from(expected);if(actual.length===wanted.length&&timingSafeEqual(actual,wanted))token=parts[0]}}if(!token){token=randomBytes(32).toString('hex');res.cookie('case_session',`${token}.${sign(token,secret)}`,{httpOnly:true,secure:production,sameSite:'lax',path:'/api/v1',maxAge:1000*60*60*24*180})}req.sessionToken=token;next()}}
